@@ -1,0 +1,53 @@
+crear una carpeta env en la carpeta backend y en ella crear un archivo development.env y añadirle:
+
+PORT=5000
+DB_HOST='localhost'
+DB_USER='root'
+DB_PASSWORD=''
+DB_NAME='BDAngular'
+
+-----------------------------------------------------------------------------------------
+
+CREATE DATABASE BDAngular;
+
+USE BDAngular;
+
+CREATE TABLE users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    full_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE products (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    image VARCHAR(255),
+    price DECIMAL(10, 2) NOT NULL,
+    short_desc TEXT,
+    quantity INT,
+    cat_id INT,
+    FOREIGN KEY (cat_id) REFERENCES categories(id)
+);
+
+INSERT INTO categories (title) VALUES
+('Electrónica'),
+('Hogar y jardín'),
+('Moda'),
+('Salud y belleza'),
+('Deportes y ocio');
+
+
+INSERT INTO products (title, image, price, short_desc, quantity, cat_id) VALUES
+('iPhone 14 Pro Max', 'https://m.media-amazon.com/images/W/WEBP_402378-T1/images/I/51iJx7YWDOL.jpg', 999.00, 'El iPhone 14 Pro Max es el teléfono inteligente más avanzado de Apple hasta la fecha. Cuenta con una pantalla OLED de 6.7 pulgadas con una frecuencia de actualización de 120 Hz, un procesador A16 Bionic, un sistema de cámara trasera triple de 48MP y una batería de mayor duración.', 10, 1),
+('MacBook Air M2', 'https://tiendasishop.com/media/catalog/product/m/l/mlxw3e_a.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=700&width=700&canvas=700:700', 999.00, 'La MacBook Air M2 es la computadora portátil más popular de Apple. Cuenta con un chip M2, una pantalla Liquid Retina de 13.6 pulgadas, una cámara web FaceTime HD de 1080p y una batería de larga duración.', 10, 1),
+('Samsung Galaxy S23 Ultra', 'https://smselectronic.com/wp-content/uploads/2023/05/SM-S918B_Black_01-1.jpg', 1199.00, 'El Samsung Galaxy S23 Ultra es el teléfono inteligente más avanzado de Samsung hasta la fecha. Cuenta con una pantalla AMOLED de 6.8 pulgadas con una frecuencia de actualización de 120 Hz, un procesador Snapdragon 8 Gen 2, un sistema de cámara trasera cuádruple de 200MP y una batería de mayor duración.', 10, 1),
+('Google Pixel 7 Pro', 'https://http2.mlstatic.com/D_Q_NP_815169-MLA53226199675_012023-O.webp', 899.00, 'El Google Pixel 7 Pro es el teléfono inteligente más avanzado de Google hasta la fecha. Cuenta con una pantalla OLED de 6.7 pulgadas con una frecuencia de actualización de 120 Hz, un procesador Google Tensor 2, un sistema de cámara trasera triple de 50MP y una batería de mayor duración.', 10, 1),
+('Sony PlayStation 5', 'https://cosonyb2c.vtexassets.com/arquivos/ids/355912/711719556220_003.jpg?v=638041127532900000', 499.00, 'La Sony PlayStation 5 es la consola de videojuegos más popular del mundo. Cuenta con un procesador AMD Ryzen Zen 2 de 8 núcleos, una tarjeta gráfica AMD RDNA 2 de 10.28 teraflops y un SSD personalizado de 825 GB.', 10, 1),
+('Microsoft Xbox Series X', 'https://exitocol.vtexassets.com/arquivos/ids/7234186/consola-xbox-series-x-1tb-microsoft.jpg?v=637532554326130000', 499.00, 'La Microsoft Xbox Series X es la consola de videojuegos más poderosa del mundo. Cuenta con un procesador AMD Ryzen Zen 2 de 8 núcleos, una tarjeta gráfica AMD RDNA 2 de 12 teraflops y un SSD personalizado de 1 TB.', 10, 1),
+('Nintendo Switch OLED', 'https://falabella.scene7.com/is/image/FalabellaCO/gsc_118315403_2051977_1?wid=800&hei=800&qlt=70', 349.99, 'La Nintendo Switch OLED es una consola de videojuegos híbrida que se puede jugar en casa o en el camino. La consola cuenta con una pantalla OLED de 7 pulgadas con una resolución de 1280 x 720 píxeles, lo que ofrece una imagen más vibrante y detallada que el modelo original de Nintendo Switch.',10,1)
