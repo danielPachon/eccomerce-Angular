@@ -6,7 +6,7 @@ const cors = require("cors");
 
 // Config .env file
 dotenv.config({
-  path: path.join(__dirname, `env/${process.env.NODE_ENV}.env`),
+  path: path.join(__dirname, `env/.env`),
 });
 
 // Initialize express app

@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { ApiService } from './api.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,11 +14,21 @@ export class CartService {
 
   cartDataObs$ = new BehaviorSubject(this.cartData);
 
-  constructor() {
+  constructor(
+    private _notification: NzNotificationService,
+    private _api: ApiService
+  ) {
     let localCartData = JSON.parse(localStorage.getItem('cart'));
     if (localCartData) this.cartData = localCartData;
 
     this.cartDataObs$.next(this.cartData);
+  }
+
+  submitCheckout(userId, cart) {
+    return this._api.postTypeRequest('orders/create', {
+      userId: userId,
+      cart: cart,
+    }); 
   }
 
   addProduct(params): void {
@@ -50,6 +62,11 @@ export class CartService {
     }
 
     this.cartData.total = this.getCartTotal();
+    this._notification.create(
+      'success',
+      'Product added to cart',
+      `${title} was successfully added to the cart`
+    );
     this.cartDataObs$.next({ ...this.cartData });
     localStorage.setItem('cart', JSON.stringify(this.cartData));
   }
@@ -77,6 +94,21 @@ export class CartService {
     );
     this.cartData.products = updatedProducts;
     this.cartData.total = this.getCartTotal();
+    this.cartDataObs$.next({ ...this.cartData });
+    localStorage.setItem('cart', JSON.stringify(this.cartData));
+
+    this._notification.create(
+      'success',
+      'Removed successfully',
+      'The selected item was removed from the cart successfully'
+    );
+  }
+
+  clearCart(): void {
+    this.cartData = {
+      products: [],
+      total: 0,
+    };
     this.cartDataObs$.next({ ...this.cartData });
     localStorage.setItem('cart', JSON.stringify(this.cartData));
   }
