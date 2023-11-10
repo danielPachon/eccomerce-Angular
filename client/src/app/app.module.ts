@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { IvyCarouselModule } from 'angular-responsive-carousel';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './auth/components/login/login.component';
@@ -56,7 +55,6 @@ registerLocaleData(en);
   imports: [
     BrowserModule,
     AppRoutingModule,
-    IvyCarouselModule,
     HttpClientModule,
     AuthModule,
     FormsModule,
