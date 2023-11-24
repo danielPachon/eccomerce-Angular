@@ -9,6 +9,8 @@ import { ProductComponent } from './product/product.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './auth/components/register/register.component';
 import { AuthGuardService } from './guards/auth-guard.service';
+import { CreateProductsComponent } from './create-products/create-products.component';
+import { ListProductsComponent } from './list-products/list-products.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -29,6 +31,21 @@ const routes: Routes = [
   {
     path: 'order-history',
     component: OrderHistoryComponent,
+    canActivate: [AuthGuardService],
+  },
+  {
+    path: 'admin/dashboard',
+    component: ListProductsComponent,
+    canActivate: [AuthGuardService],
+  },
+  {
+    path: 'admin/product/:id',
+    component: CreateProductsComponent,
+    canActivate: [AuthGuardService],
+  },
+  {
+    path: 'admin/product/create',
+    component: CreateProductsComponent,
     canActivate: [AuthGuardService],
   },
 ];

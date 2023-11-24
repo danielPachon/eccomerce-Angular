@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit {
   isLoggedIn = false;
   dropdownVisible = false;
   cartData: any;
+  isAdmin = false;
 
   @HostListener('window:resize', ['$event'])
   getScreenSize(event?) {
@@ -34,8 +35,15 @@ export class HeaderComponent implements OnInit {
   ) {
     this.getScreenSize();
     this._auth.user.subscribe((user) => {
-      if (user) this.isLoggedIn = true;
-      else this.isLoggedIn = false;
+      if (user) {
+        this.isLoggedIn = true;
+        this.isAdmin = user.isAdmin;
+      } else {
+        this.isLoggedIn = false;
+        this.isAdmin = false;
+      }
+
+      console.log('user --', user);
     });
     this._cart.cartDataObs$.subscribe((cartData) => {
       this.cartData = cartData;
@@ -43,8 +51,17 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this._token.getUser()) this.isLoggedIn = true;
-    else this.isLoggedIn = false;
+    const user = this._token.getUser();
+    this.isAdmin = false;
+    if (user) {
+      this.isLoggedIn = true;
+      if (user.type == 'admin') {
+        this.isAdmin = true;
+      }
+    } else {
+      this.isLoggedIn = false;
+    }
+    console.log('onInit -- ', user);
   }
 
   toggleMenu() {

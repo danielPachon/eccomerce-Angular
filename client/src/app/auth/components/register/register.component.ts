@@ -9,6 +9,7 @@ import { ApiService } from '../../../services/api.service';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
+  username = '';
   fullName = '';
   email = '';
   password = '';
@@ -32,6 +33,7 @@ export class RegisterComponent implements OnInit {
         this.loading = true;
         this._auth
           .register({
+            username: this.fullName,
             fullName: this.fullName,
             email: this.email,
             password: this.password,
@@ -43,6 +45,7 @@ export class RegisterComponent implements OnInit {
               this._router.navigate(['/login']);
             },
             (err) => {
+              console.log(err);
               this.errorMessage = err.error.message;
               this.loading = false;
             }

@@ -18,7 +18,7 @@
   <div class="header-container__middle">
     <h3 routerLink="/">Eccom</h3>
   </div>
-  <div class="header-container__right">
+  <div class="header-container__right" *ngIf="!isAdmin">
     <ng-container>
       <div class="cart-counter">{{ cartData.products.length }}</div>
       <button
@@ -74,7 +74,7 @@
                     <div class="product-name">{{ product.title }}</div>
                     <div class="product-amount">
                       {{ product.quantity }} x
-                      <span>{{ product.price | currency: "USD" }}</span>
+                      <span>{{ product.price | currency : "USD" }}</span>
                     </div>
                   </div>
                 </div>
@@ -85,7 +85,7 @@
                 {{ cartData.products.length }} Item(s) selected
               </div>
               <div class="total-price">
-                Total: {{ cartData.total | currency: "USD" }}
+                Total: {{ cartData.total | currency : "USD" }}
               </div>
             </div>
             <div class="cart-cta">
@@ -144,13 +144,16 @@
   <div class="side-menu__content">
     <h2 routerLink="/" (click)="toggleMenu()">Eccom</h2>
     <nav>
-      <ul>
+      <ul *ngIf="!isAdmin">
         <li routerLink="/" (click)="toggleMenu()">Home</li>
         <li routerLink="/cart" (click)="toggleMenu()">Cart</li>
         <li routerLink="/profile" (click)="toggleMenu()">Profile</li>
         <li routerLink="/order-history" (click)="toggleMenu()">
           Order History
         </li>
+      </ul>
+      <ul *ngIf="isAdmin">
+        <li routerLink="/admin/dashboard" (click)="toggleMenu()">Productos</li>
       </ul>
     </nav>
     <div class="🍑">

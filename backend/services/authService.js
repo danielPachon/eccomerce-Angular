@@ -15,7 +15,7 @@ exports.loginUser = async (params) => {
 
   return new Promise((resolve, reject) => {
     db.query(
-      "SELECT * FROM users WHERE email = ? AND password = ?",
+      "SELECT * FROM users WHERE email = ? AND password = ? AND type != 'admin'",
       [email, hashedPassword],
       (err, result) => {
         if (err) {
@@ -46,11 +46,51 @@ exports.loginUser = async (params) => {
   });
 };
 
+exports.loginUserAdmin = async (params) => {
+  const { error } = loginValidation(params);
+  if (error) throw { message: error.details[0].message, statusCode: 400 };
+
+  const { email, password } = params;
+  const hashedPassword = md5(password.toString());
+
+  return new Promise((resolve, reject) => {
+    db.query(
+      "SELECT * FROM users WHERE email = ? AND password = ? AND type='admin'",
+      [email, hashedPassword],
+      (err, result) => {
+        if (err) {
+          reject({
+            data: err,
+            message: "Something went wrong, please try again",
+            statusCode: 400,
+          });
+        }
+
+        if (result.length === 0) {
+          reject({
+            message: "Wrong credentials, please try again",
+            statusCode: 400,
+          });
+        }
+
+        if (result.length > 0) {
+          const token = jwt.sign({ data: result }, "secret");
+          resolve({
+            message: "Logged in successfully",
+            data: result,
+            token,
+          });
+        }
+      }
+    );
+  });
+}
+
 exports.registerUser = async (params) => {
   const { error } = registerValidation(params);
   if (error) throw { message: error.details[0].message, statusCode: 400 };
 
-  const { fullName, email, password } = params;
+  const { username, fullName, email, password } = params;
   const hashedPassword = md5(password.toString());
 
   return new Promise((resolve, reject) => {
@@ -65,8 +105,8 @@ exports.registerUser = async (params) => {
           });
         } else if (result.length === 0) {
           db.query(
-            `INSERT INTO users (fname, email, password) VALUES (?,?,?)`,
-            [fullName, email, hashedPassword],
+            `INSERT INTO users (username, fname, email, password) VALUES (?,?,?,?)`,
+            [username, fullName, email, hashedPassword],
             (err, result) => {
               if (err) {
                 reject({

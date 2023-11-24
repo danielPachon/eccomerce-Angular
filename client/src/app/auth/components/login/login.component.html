@@ -38,7 +38,17 @@
         >
           Sign in
         </button>
-        <div><a routerLink="/register">Create a new account</a></div>
+        <div>
+          <a routerLink="/register">Create a new account</a>
+          <span class="float_right">
+            <input
+              type="checkbox"
+              [(ngModel)]="isAdmin"
+              [ngModelOptions]="{ standalone: true }"
+            />
+            como Admin
+          </span>
+        </div>
       </div>
 
       <div class="forgot-password">

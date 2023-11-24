@@ -11,6 +11,7 @@ export class LoginComponent implements OnInit {
   email = '';
   password = '';
   error = '';
+  isAdmin = false;
   loading = false;
 
   constructor(private _auth: AuthService, private _router: Router) {}
@@ -24,11 +25,19 @@ export class LoginComponent implements OnInit {
       this.error = 'Make sure to fill everything ;)';
     } else {
       this._auth
-        .login({ email: this.email, password: this.password })
+        .login({
+          email: this.email,
+          password: this.password,
+          isAdmin: this.isAdmin,
+        })
         .subscribe(
           (res) => {
             this.loading = false;
-            this._router.navigate(['/']);
+            if (this._auth.getUser()?.isAdmin) {
+              this._router.navigate(['/admin/dashboard']);
+            } else {
+              this._router.navigate(['/']);
+            }
           },
           (err) => {
             console.log(err);

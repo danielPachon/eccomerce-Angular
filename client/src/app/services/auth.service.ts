@@ -27,16 +27,19 @@ export class AuthService {
       .postTypeRequest('auth/login', {
         email: credentials.email,
         password: credentials.password,
+        isAdmin: credentials.isAdmin,
       })
       .pipe(
         map((res: any) => {
           let user = {
             email: credentials.email,
             token: res.token,
+            isAdmin: credentials.isAdmin,
           };
           this._token.setToken(res.token);
-          this._token.setUser(res.data[0]);
           console.log(res);
+          this._token.setUser(res.data[0]);
+          console.log(res.data[0]);
           this.userSubject.next(user);
           return user;
         })
@@ -44,7 +47,9 @@ export class AuthService {
   }
 
   register(user: any): Observable<any> {
+    console.log('username - client', user.username);
     return this._api.postTypeRequest('auth/register', {
+      username: user.username,
       fullName: user.fullName,
       email: user.email,
       password: user.password,

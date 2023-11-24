@@ -26,4 +26,38 @@ export class ProductService {
     console.log(id);
     return this._api.getTypeRequest('products/' + id);
   }
+
+  getProductByTitle(title: String): Observable<any> {
+    console.log(title);
+    return this._api.getTypeRequest('products/title/' + title);
+  }
+
+  getCategories(): Observable<any> {
+    return this._api.postTypeRequest('products/categories', {});
+  }
+
+  register(product: any): Observable<any> {
+    return this._api.postTypeRequest('products/add', {
+      title: product.title,
+      short_desc: product.short_desc,
+      description: product.description,
+      price: product.price,
+      quantity: product.quantity,
+      image: product.image,
+      cat_id: product.cat_id,
+    });
+  }
+
+  update(product: any): Observable<any> {
+    return this._api.postTypeRequest('products/update', {
+      id: product.id,
+      title: product.title,
+      short_desc: product.short_desc,
+      description: product.description,
+      price: product.price,
+      quantity: product.quantity,
+      image: product.image,
+      cat_id: product.cat_id,
+    });
+  }
 }

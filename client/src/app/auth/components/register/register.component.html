@@ -10,6 +10,16 @@
     ></nz-alert>
     <form #registerForm="ngForm" (ngSubmit)="onSubmit()">
       <div class="input-container">
+        <label for="username">Username</label>
+        <input
+          nz-input
+          type="text"
+          name="username"
+          [(ngModel)]="username"
+          placeholder="Enter username"
+        />
+      </div>
+      <div class="input-container">
         <label for="fullName">Full name</label>
         <input
           nz-input
@@ -72,7 +82,9 @@
           Sign up
         </button>
         <div>
-          <div><a routerLink="/login">Sign in with an existing user</a></div>
+          <div>
+            <a routerLink="/login">Sign in with an existing user</a>
+          </div>
         </div>
       </div>
     </form>
